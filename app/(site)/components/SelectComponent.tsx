@@ -9,8 +9,8 @@ type ItemType = {
 
 export function SelectComponent({ items, placeholder, title }: { items: Array<ItemType>; placeholder: string; title: string }) {
   return (
-    <Select className="w-full relative">
-      <SelectTrigger className="w-full">
+    <Select>
+      <SelectTrigger>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>
       <SelectContent>
