@@ -18,8 +18,8 @@ export default function page() {
           </div>
           <button className="bg-primary-orange p-4 w-full uppercase font-semibold text-sm rounded-lg !mt-12 text-primary-black">Log In</button>
           <div className="!mt-10 text-center text-xl font-semibold">OR</div>
-          <button className="bg-[#1877F2] rounded-full p-4 w-full text-lg font-semibold !mt-12 flex justify-center items-center gap-3">
-            <Image src="/icons/facebook.png" alt="" width={26} height={26} />
+          <button className="bg-[#1877F2] rounded-full p-4 w-full text-lg font-semibold !mt-12 flex justify-center items-center gap-2">
+            <Image src="/icons/facebook.svg" alt="" width={32} height={32} />
             Login with Facebook{" "}
           </button>
           <button className="bg-[#18ADF2] rounded-full p-4 w-full text-lg font-semibold flex justify-center items-center gap-3 !mt-6">
