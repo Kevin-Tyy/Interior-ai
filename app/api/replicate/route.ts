@@ -9,6 +9,9 @@ export async function POST(request: Request) {
   const theme = req.theme;
   const room = req.room;
 
+  console.log(process.env.REPLICATE_API_TOKEN);
+
+
   // 2. Initialize the replicate object with our Replicate API token
   const replicate = new Replicate({
     auth: process.env.REPLICATE_API_TOKEN as string,
