@@ -8,13 +8,13 @@ export default function RoomType() {
       <div className="space-y-3">
         <h2 className="font-semibold">Room</h2>
         <div className="w-full relative">
-          <SelectComponent items={roomTypes} placeholder="Select Room Type" title="Room Type" />
+          <SelectComponent defaultValue={roomTypes[0]} items={roomTypes} placeholder="Select Room Type" title="Room Type" />
         </div>
       </div>
       <div className="space-y-3">
         <h2 className="font-semibold">Mode</h2>
         <div className="w-full relative">
-          <SelectComponent items={modes} placeholder="Select Room Design Mode" title="Design Mode" />
+          <SelectComponent defaultValue={modes[0]} items={modes} placeholder="Select Room Design Mode" title="Design Mode" />
         </div>
       </div>
       <p className="text-[#ABAEB7] leading-8">

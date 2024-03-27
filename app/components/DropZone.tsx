@@ -2,24 +2,27 @@
 
 import Image from "next/image";
 import React, { useCallback } from "react";
-import { useDropzone } from "react-dropzone";
+import { FileRejection, useDropzone } from "react-dropzone";
 interface Props {
-  isInterior?: boolean;
+  onImageDrop: (acceptedFiles: File[], rejectedFiles: FileRejection[]) => void;
 }
-export default function Dropzone({ isInterior }: Props) {
-  const onDrop = useCallback((acceptedFiles: any) => {}, []);
+const acceptedFileTypes = {
+  "image/jpeg": [".jpeg", ".jpg", ".png"],
+};
+
+export default function Dropzone({ onImageDrop }: Props) {
+  const onDrop = useCallback(onImageDrop, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: {
-      "image/*": [],
-    },
+    accept: acceptedFileTypes,
     maxFiles: 1,
+    multiple: false,
   });
 
   return (
     <div
       {...getRootProps()}
-      className="bg-[url('/background-image-uploads.png')] bg-no-repeat bg-cover  border-[2px] rounded-[40px] border-white/30 border-dashed outline-none w-full flex justify-center items-center h-[596px] cursor-pointer">
+      className="border-[2px] rounded-[40px] border-white/30 border-dashed outline-none w-full flex justify-center items-center h-[596px] cursor-pointer">
       <input {...getInputProps()} accept="images/*" />
       {isDragActive ? (
         <p className="text-lg text-center">Drop the files here ...</p>

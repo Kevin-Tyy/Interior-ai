@@ -104,7 +104,7 @@ body {
 .custom-transition {
   transition: left cubic-bezier(0.88, -0.35, 0.565, 1.35) 0.4s;
 }
-.border-bottom-gradient {
+.border-primary-gradient {
   position: relative;
 }
 .border-primary-gradient::before {
@@ -127,6 +127,21 @@ body {
   inset: 0;
   border-radius: 12px;
   padding: 2px;
+  background: linear-gradient(-45deg, #e025ceb2, #4aed52b2, #4aed52b2, #e025ceb2);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.border-b-rounded-gradient {
+  position: relative;
+}
+.border-b-rounded-gradient::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 0px 0px 30px 30px;
+  padding: 4px;
   background: linear-gradient(-45deg, #e025ceb2, #4aed52b2, #4aed52b2, #e025ceb2);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;

@@ -7,9 +7,19 @@ type ItemType = {
   label: string;
 };
 
-export function SelectComponent({ items, placeholder, title }: { items: Array<ItemType>; placeholder: string; title: string }) {
+export function SelectComponent({
+  items,
+  placeholder,
+  title,
+  defaultValue,
+}: {
+  items: Array<ItemType>;
+  placeholder: string;
+  title: string;
+  defaultValue: ItemType;
+}) {
   return (
-    <Select>
+    <Select defaultValue={defaultValue.value}>
       <SelectTrigger>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

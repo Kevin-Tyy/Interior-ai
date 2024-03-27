@@ -12,7 +12,7 @@ export default function Navbar() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <header className="absolute top-0 w-full px-4 py-4 z-[5]">
+    <header className="absolute top-0 w-full px-3 py-4 z-[5]">
       <div className="max-w-[1820px] mx-auto">
         <nav className="w-full flex items-center justify-between">
           <Logo />
