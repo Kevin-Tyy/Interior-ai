@@ -3,6 +3,7 @@ import Dropzone from "@/app/components/DropZone";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { FileRejection } from "react-dropzone";
 import { ViewUploadedImage } from "@/app/components/ViewUploadedImage";
+import Motion from "@/components/Motion";
 
 export default function UploadPicture({
   file,
@@ -59,18 +60,20 @@ export default function UploadPicture({
   }
 
   return (
-    <div className="mt-12 space-y-12">
-      {!file ? (
-        <Dropzone onImageDrop={onImageDrop} />
-      ) : (
-        <ViewUploadedImage image={file} removeImage={removeImage} file={{ name: file.name, size: fileSize(file.size) }} />
-      )}
-      <p className="text-[#ABAEB7] leading-8">
-        Take a photo of your current room. For best results make sure it shows the entire room in a{" "}
-        <span className="underline">90° straight angle facing a wall or window horizontally (click for example).</span> Not from a corner or angled, and not a
-        wide angle photo as it's trained on regular photos. The AI isn't great at angled pics (yet)! Uploads + renders are shown on site but auto deleted after
-        15 mins. To make 100% private HQ renders without deletion and watermark upgrade to Pro and you get your own private workspace.
-      </p>
-    </div>
+    <Motion transition={{ duration: 0.5 }} variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}>
+      <div className="mt-12 space-y-12">
+        {!file ? (
+          <Dropzone onImageDrop={onImageDrop} />
+        ) : (
+          <ViewUploadedImage image={file} removeImage={removeImage} file={{ name: file.name, size: fileSize(file.size) }} />
+        )}
+        <p className="text-[#ABAEB7] leading-8">
+          Take a photo of your current room. For best results make sure it shows the entire room in a{" "}
+          <span className="underline">90° straight angle facing a wall or window horizontally (click for example).</span> Not from a corner or angled, and not a
+          wide angle photo as it's trained on regular photos. The AI isn't great at angled pics (yet)! Uploads + renders are shown on site but auto deleted
+          after 15 mins. To make 100% private HQ renders without deletion and watermark upgrade to Pro and you get your own private workspace.
+        </p>
+      </div>
+    </Motion>
   );
 }
