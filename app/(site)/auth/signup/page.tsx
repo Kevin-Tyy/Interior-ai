@@ -163,6 +163,9 @@ export default function page() {
             <div className="flex justify-end">
               <p className="underline text-[17px] cursor-pointer">Resend Code</p>
             </div>
+            <button className="bg-primary-orange h-[54px] w-full uppercase font-semibold text-sm rounded-lg !mt-12 text-primary-black flex justify-center items-center">
+              {loading ? <TailSpin color="#031A26" height={30} width={30} /> : "Verify Email"}
+            </button>
           </form>
         )}
       </section>
