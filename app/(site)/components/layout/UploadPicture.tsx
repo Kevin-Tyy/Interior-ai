@@ -4,20 +4,25 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { FileRejection } from "react-dropzone";
 import { ViewUploadedImage } from "@/app/components/ViewUploadedImage";
 import Motion from "@/components/Motion";
-
+import { useUser } from "@clerk/nextjs";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
 export default function UploadPicture({
   file,
   setFile,
   setError,
   setBase64Image,
-  setOutputImage,
 }: {
   file: File | null;
   setFile: (file: File | null) => void;
   setError: Dispatch<SetStateAction<string | null>>;
   setBase64Image: Dispatch<SetStateAction<string | null>>;
-  setOutputImage: Dispatch<SetStateAction<string | null>>;
 }) {
+  const { isLoaded, isSignedIn, user } = useUser();
+  const { toast } = useToast();
+  const router = useRouter();
+
   function convertImageToBase64(file: File): void {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -32,6 +37,20 @@ export default function UploadPicture({
   }
 
   function onImageDrop(acceptedFiles: File[], rejectedFiles: FileRejection[]): void {
+    if (isLoaded) {
+      if (!isSignedIn) {
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "Login or sign up for a free account to design your room",
+          action: (
+            <ToastAction altText="Login" onClick={() => router.push("/auth/sigin")}>
+              Login
+            </ToastAction>
+          ),
+        });
+        return;
+      }
+    }
     if (rejectedFiles.length > 0) {
       console.info(rejectedFiles);
       setError("Please upload a PNG or JPEG image less than 5MB.");

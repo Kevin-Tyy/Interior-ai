@@ -98,7 +98,7 @@ export default function Home() {
   const renderComponent = (activeTab: string) => {
     switch (activeTab) {
       case "Upload Your picture":
-        return <UploadPicture file={file} setFile={setFile} setBase64Image={setBase64Image} setError={setError} setOutputImage={setOutputImage} />;
+        return <UploadPicture file={file} setFile={setFile} setBase64Image={setBase64Image} setError={setError} />;
 
       case "Room Type / Mode":
         return <RoomType />;
@@ -107,6 +107,7 @@ export default function Home() {
         return <RoomStyle />;
     }
   };
+  
   return (
     <Fragment>
       <div className="h-screen absolute w-full z-[-1]">

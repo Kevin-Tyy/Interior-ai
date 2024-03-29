@@ -6,10 +6,12 @@ import { usePathname } from "next/navigation";
 import MobileSidebar from "./MobileSidebar";
 import { navLinks } from "./data";
 import clsx from "clsx";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
+  const { isLoaded, isSignedIn } = useUser();
 
   return (
     <header className="absolute top-0 w-full px-3 py-4 z-[5]">
@@ -54,13 +56,22 @@ export default function Navbar() {
                     ))}
                   </ul>
                 </div>
-                <div className="flex gap-x-5">
-                  <div className="flex gap-x-4">
+                {isLoaded && isSignedIn ? (
+                  <UserButton afterSignOutUrl="/" />
+                ) : (
+                  <div className="flex gap-x-5">
                     <Link href="/auth/signin">
-                      <button className="bg-primary-orange py-3 px-8 rounded-lg text-primary-black font-semibold uppercase text-sm">Log in</button>
+                      <button className="ring-1 ring-primary-lightgray ring-inset py-4 px-10 rounded-lg font-semibold text-white uppercase text-sm hover:bg-primary-orange hover:text-primary-black hover:ring-primary-orange transition duration-500">
+                        Log in
+                      </button>
                     </Link>
+                    <div className="flex gap-x-4">
+                      <Link href="/auth/signup">
+                        <button className="bg-primary-orange py-4 px-8 rounded-lg text-primary-black font-semibold uppercase text-sm">Sign up</button>
+                      </Link>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </>
           )}
