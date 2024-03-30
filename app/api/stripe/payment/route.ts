@@ -13,8 +13,8 @@ export async function POST(request: NextRequest) {
       },
     ],
     mode: "subscription",
-    success_url: "http://localhost:3000",
-    cancel_url: "http://localhost:3000",
+    success_url: "https://interior-ai-lyart.vercel.app",
+    cancel_url: "https://interior-ai-lyart.vercel.app",
     // automatic_tax: { enabled: true },
   });
 
