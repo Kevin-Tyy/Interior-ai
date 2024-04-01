@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import Replicate from "replicate";
 
 export async function POST(request: Request) {
-  console.log(request);
   // 1. Get request data (in JSON format) from the client
   const req = await request.json();
 
