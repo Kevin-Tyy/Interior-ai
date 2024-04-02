@@ -24,7 +24,7 @@ export default function Pricing() {
         <div className="w-[550px] h-[300px] rounded-full absolute top-1/2 right-0 bg-gradient-to-r from-primary-orange/70 to-primary-orange/70 blur-[180px]" />
         <div className="w-[450px] h-[200px] rounded-full absolute bottom-20 left-0 bg-gradient-to-r from-primary-orange to-primary-orange blur-[160px]" />
       </div>
-      <main className="pt-20">
+      <main className="py-20 px-4">
         <h1 className="text-5xl text-white text-center font-bold mt-5 leading-snug">Plans & Pricing</h1>
         <div className="flex relative justify-center mt-4">
           <div className="flex relative max-w-fit  bg-white/80 rounded-full">

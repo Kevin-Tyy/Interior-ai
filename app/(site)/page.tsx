@@ -14,6 +14,7 @@ import { saveAs } from "file-saver";
 import OutputImage from "./components/OutputImage";
 import { TailSpin } from "react-loader-spinner";
 
+
 const Gallery = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
   const filters = roomStyles.map((item) => item.value);
@@ -107,7 +108,7 @@ export default function Home() {
         return <RoomStyle />;
     }
   };
-  
+
   return (
     <Fragment>
       <div className="h-screen absolute w-full z-[-1]">

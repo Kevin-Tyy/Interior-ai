@@ -3,8 +3,9 @@ import Stripe from "stripe";
 
 export async function POST(request: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
-  let data = await request.json();
-  let priceId = data.priceId;
+  const data = await request.json();
+  const priceId = data.priceId;
+  const userId = data.userId;
 
   // Determine environment
   const isDevelopment = process.env.NODE_ENV === "development";
@@ -23,6 +24,9 @@ export async function POST(request: NextRequest) {
     mode: "subscription",
     success_url: successUrl,
     cancel_url: cancelUrl,
+    metadata: {
+      userId,
+    },
     // automatic_tax: { enabled: true },
   });
 

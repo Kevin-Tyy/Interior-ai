@@ -29,6 +29,7 @@
     "react-loader-spinner": "^6.1.6",
     "replicate": "^0.29.1",
     "stripe": "^14.23.0",
+    "svix": "^1.21.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7"
   },

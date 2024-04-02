@@ -6,15 +6,19 @@ import { useToast } from "@/components/ui/use-toast";
 import { Product } from "@/types";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useState, useTransition } from "react";
 import { TailSpin } from "react-loader-spinner";
 
 export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY" | "YEARLY" }) {
   const { toast } = useToast();
   const [products, setProducts] = useState<Product[] | null>(null);
-  const { isLoaded, isSignedIn } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [selectedProduct, setSelectedProduct] = useState<String | null>(null);
+  const [isPending, startTransition] = useTransition();
+
   const router = useRouter();
 
   useEffect(() => {
@@ -31,33 +35,46 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
     fetchProducts();
   }, []);
 
-  const handleSubcription = async (e: FormEvent, price: Product) => {
+  const handleSubcription = (e: FormEvent<any>, price: Product) => {
     e.preventDefault();
-    if (!isLoaded) return;
-    if (!isSignedIn) {
-      toast({
-        description: "Login or sign up to subscribe to your desired pack",
-        action: (
-          <ToastAction altText="Login" onClick={() => router.push("/auth/sigin")}>
-            Login
-          </ToastAction>
-        ),
-      });
-      return;
-    }
+    try {
+      startTransition(async () => {
+        setSelectedProduct(price.id);
+        if (!isLoaded) return;
+        if (!isSignedIn) {
+          toast({
+            description: "Login or sign up to subscribe to your desired pack",
+            action: (
+              <ToastAction altText="Login" onClick={() => router.push("/auth/sigin")}>
+                Login
+              </ToastAction>
+            ),
+          });
+          return;
+        }
 
-    const { data } = await axios.post(
-      "/api/stripe/payment",
-      {
-        priceId: price.id,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    window.location.assign(data);
+        const { data } = await axios.post(
+          "/api/stripe/payment",
+          {
+            priceId: price.id,
+            userId: user.id,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        // window.location.assign(data);
+      });
+    } catch (error) {
+      toast({
+        title: "Opps! Something went wrong,",
+        description: "Refresh the page and try again",
+      });
+    } finally {
+      setSelectedProduct(null);
+    }
   };
   if (!products)
     return (
@@ -95,8 +112,8 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
               </div>
               <button
                 onClick={(e) => handleSubcription(e, selectedPlan === "MONTHLY" ? products[0] : products[3])}
-                className="w-full bg-primary-lightgray text-white p-4 rounded-full font-semibold hover:scale-105 transition duration-300">
-                Choose plan
+                className="w-full bg-primary-lightgray text-white p-4 rounded-full font-semibold hover:scale-105 transition duration-300 flex justify-center items-center">
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />} Choose plan
               </button>
             </div>
             <div className="min-h-[650px] xl:min-h-[520px] w-full pb-[36px] pt-[86px] flex flex-col justify-between">
@@ -128,7 +145,8 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
               </div>
               <button
                 onClick={(e) => handleSubcription(e, selectedPlan === "MONTHLY" ? products[1] : products[4])}
-                className="w-full bg-primary-lightgray text-white p-4 rounded-full font-semibold hover:scale-105 transition duration-300">
+                className="w-full bg-primary-lightgray text-white p-4 rounded-full font-semibold hover:scale-105 transition duration-300 flex justify-center items-center">
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Choose plan
               </button>
             </div>
@@ -172,7 +190,8 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
               </div>
               <button
                 onClick={(e) => handleSubcription(e, selectedPlan === "MONTHLY" ? products[2] : products[5])}
-                className="w-full bg-primary-black text-white p-4 rounded-full hover:scale-105 transition duration-300">
+                className="w-full bg-primary-black text-white p-4 rounded-full hover:scale-105 transition duration-300 flex justify-center items-center">
+                {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 Choose plan
               </button>
             </div>
@@ -217,7 +236,8 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
             </div>
             <button
               onClick={(e) => handleSubcription(e, selectedPlan === "MONTHLY" ? products[2] : products[5])}
-              className="w-full bg-primary-black text-white p-4 rounded-full hover:scale-105 transition duration-300">
+              className="w-full bg-primary-black text-white p-4 rounded-full hover:scale-105 transition duration-300 flex justify-center items-center">
+              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Choose plan
             </button>
           </div>
