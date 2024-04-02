@@ -102,7 +102,7 @@ body {
 }
 
 .custom-transition {
-  transition: left cubic-bezier(0.88, -0.35, 0.565, 1.35) 0.4s;
+  transition: left 0.4s;
 }
 .border-primary-gradient {
   position: relative;
