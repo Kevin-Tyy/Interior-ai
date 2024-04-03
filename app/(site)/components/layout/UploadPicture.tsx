@@ -11,12 +11,10 @@ import { useRouter } from "next/navigation";
 export default function UploadPicture({
   file,
   setFile,
-  setError,
   setBase64Image,
 }: {
   file: File | null;
   setFile: (file: File | null) => void;
-  setError: Dispatch<SetStateAction<string | null>>;
   setBase64Image: Dispatch<SetStateAction<string | null>>;
 }) {
   const { isLoaded, isSignedIn, user } = useUser();
@@ -43,7 +41,7 @@ export default function UploadPicture({
           title: "Uh oh! Something went wrong.",
           description: "Login or sign up for a free account to design your room",
           action: (
-            <ToastAction altText="Login" onClick={() => router.push("/auth/sigin")}>
+            <ToastAction altText="Login" onClick={() => router.push("/auth/signin")}>
               Login
             </ToastAction>
           ),
@@ -53,14 +51,15 @@ export default function UploadPicture({
     }
     if (rejectedFiles.length > 0) {
       console.info(rejectedFiles);
-      setError("Please upload a PNG or JPEG image less than 5MB.");
+      toast({
+        description: "Please upload a PNG or JPEG image less than 5MB.",
+      });
       return;
     }
 
     removeImage();
 
     console.info(acceptedFiles);
-    setError("");
     setFile(acceptedFiles[0]);
 
     convertImageToBase64(acceptedFiles[0]);

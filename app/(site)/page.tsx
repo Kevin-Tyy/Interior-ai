@@ -13,7 +13,10 @@ import { Image as ImageIcon } from "lucide-react";
 import { saveAs } from "file-saver";
 import OutputImage from "./components/OutputImage";
 import { TailSpin } from "react-loader-spinner";
-
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+import { useRouter } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 
 const Gallery = () => {
   const [selectedFilter, setSelectedFilter] = useState("All");
@@ -55,9 +58,10 @@ export default function Home() {
   const [base64Image, setBase64Image] = useState<string | null>(null);
   const [roomStyle, setRoomStyle] = useState<string>(roomStyles[0].value);
   const [roomType, setRoomType] = useState<string>(roomTypes[0].value);
-  const [error, setError] = useState<string | null>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [outputImage, setOutputImage] = useState<string | null>(null);
+  const router = useRouter();
+  const { isLoaded, isSignedIn, user } = useUser();
 
   const tabs = ["Upload Your picture", "Room Type / Mode", "Style and Others"];
 
@@ -66,8 +70,24 @@ export default function Home() {
   }
 
   async function submitImage(): Promise<void> {
+    if (isLoaded) {
+      if (!isSignedIn) {
+        toast({
+          title: "Uh oh! Something went wrong.",
+          description: "Login or sign up for a free account to design your room",
+          action: (
+            <ToastAction altText="Login" onClick={() => router.push("/auth/signin")}>
+              Login
+            </ToastAction>
+          ),
+        });
+        return;
+      }
+    }
     if (!file) {
-      setError("Please upload an image.");
+      toast({
+        description: "Please upload an image of an empty room.",
+      });
       return;
     }
 
@@ -84,8 +104,16 @@ export default function Home() {
     const result = await response.json();
     console.log(result);
 
-    if (result.error) {
-      setError(result.error);
+    if (response.status != 201) {
+      toast({
+        title: result?.title,
+        description: result?.description,
+        action: (
+          <ToastAction altText={result?.action?.title} onClick={() => router.push(result?.action?.link)}>
+            {result?.action?.title}
+          </ToastAction>
+        ),
+      });
       setLoading(false);
       return;
     }
@@ -99,7 +127,7 @@ export default function Home() {
   const renderComponent = (activeTab: string) => {
     switch (activeTab) {
       case "Upload Your picture":
-        return <UploadPicture file={file} setFile={setFile} setBase64Image={setBase64Image} setError={setError} />;
+        return <UploadPicture file={file} setFile={setFile} setBase64Image={setBase64Image} />;
 
       case "Room Type / Mode":
         return <RoomType />;
