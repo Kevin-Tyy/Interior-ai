@@ -6,11 +6,12 @@ export const isUserInFreeTrial = async (userId: string) => {
       clerkUserId: userId,
     },
   });
-  if (account?.status === "INACTIVE" && account?.numberOfImagesGenerated < 5) {
+  if (account?.status === "INACTIVE" && !account?.stripeCustomerId) {
     return true;
   }
   return false;
 };
+
 export const getNumberOfImagesGenerated = async (userId: string) => {
   const account = await prisma.account.findFirst({
     where: {
@@ -30,4 +31,18 @@ export const changeNumberOfImagesGenerated = async (userId: string) => {
       numberOfImagesGenerated: currentNumberOfImages! + 1,
     },
   });
+};
+
+export const isFreeTrialOver = async (userId: string) => {
+  const account = await prisma.account.findFirst({
+    where: {
+      clerkUserId: userId,
+    },
+  });
+  if (await isUserInFreeTrial(userId)) {
+    if (((await getNumberOfImagesGenerated(userId)) as number) >= 5) {
+      return true;
+    }
+  }
+  return false;
 };

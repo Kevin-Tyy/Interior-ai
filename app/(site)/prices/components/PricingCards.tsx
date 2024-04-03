@@ -39,7 +39,7 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
       if (!isLoaded) return;
       if (!isSignedIn) {
         toast({
-          description: "Login or sign up to subscribe to your desired pack",
+          description: "Login or sign up to subscribe to your desired pack ⚠️",
           action: (
             <ToastAction altText="Login" onClick={() => router.push("/auth/sigin")}>
               Login
@@ -50,7 +50,7 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
       }
 
       const { data } = await axios.post(
-        "/api/stripe/payment",
+        "/api/stripe/checkout",
         {
           priceId: price.id,
           userId: user.id,

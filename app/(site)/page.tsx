@@ -73,7 +73,7 @@ export default function Home() {
     if (isLoaded) {
       if (!isSignedIn) {
         toast({
-          title: "Uh oh! Something went wrong.",
+          title: "Uh oh! Something went wrong. ⚠️",
           description: "Login or sign up for a free account to design your room",
           action: (
             <ToastAction altText="Login" onClick={() => router.push("/auth/signin")}>
@@ -86,7 +86,7 @@ export default function Home() {
     }
     if (!file) {
       toast({
-        description: "Please upload an image of an empty room.",
+        description: "Please upload an image of an empty room. ⚠️",
       });
       return;
     }
@@ -103,6 +103,13 @@ export default function Home() {
 
     const result = await response.json();
     console.log(result);
+
+    if (result) {
+      toast({
+        title: result?.message?.title,
+        description: result?.message?.description,
+      });
+    }
 
     if (response.status != 201) {
       toast({

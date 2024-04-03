@@ -1,4 +1,4 @@
-import { changeNumberOfImagesGenerated, isUserInFreeTrial } from "@/app/actions/user.actions";
+import { changeNumberOfImagesGenerated, getNumberOfImagesGenerated, isFreeTrialOver, isUserInFreeTrial } from "@/app/actions/user.actions";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import Replicate from "replicate";
@@ -31,18 +31,19 @@ export async function POST(request: Request) {
     if (!userId)
       return NextResponse.json(
         {
-          title: "Something went wrong",
+          title: "Something went wrong ⚠️",
           description: "Refresh the page and try again",
         },
         { status: 500 }
       );
 
-    const freeTrial = await isUserInFreeTrial(userId!);
-
-    if (!freeTrial)
+    const user_has_free_trial = await isUserInFreeTrial(userId!);
+    const is_trial_expired = await isFreeTrialOver(userId!);
+    const number_of_images_generated = await getNumberOfImagesGenerated(userId!);
+    if (user_has_free_trial && is_trial_expired)
       return NextResponse.json(
         {
-          title: "Please subcribe",
+          title: "Please subcribe ⚠️",
           description: "Your 5 free image trial is over, please subscrible to our plan that suits you.",
           action: { link: "/prices", title: "Subcribe here" },
         },
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
       console.log("Something went wrong");
       return NextResponse.json(
         {
-          title: "Could not generate new image",
+          title: "Could not generate new image ⚠️",
           description: "Please try again",
         },
         { status: 500 }
@@ -67,12 +68,27 @@ export async function POST(request: Request) {
     await changeNumberOfImagesGenerated(userId!);
 
     console.log("Output", output);
-    return NextResponse.json({ output }, { status: 201 });
+    return NextResponse.json(
+      {
+        output: output,
+        message: {
+          title: "Image generated ✅",
+          description: `${
+            user_has_free_trial
+              ? `You have ${number_of_images_generated! - 1 > 0 ? 5 - number_of_images_generated! - 1 : "No"} free image${
+                  5 - number_of_images_generated! - 1 == 1 ? "" : "s"
+                } left`
+              : null
+          }`,
+        },
+      },
+      { status: 201 }
+    );
   } catch (err) {
     console.log(err);
     return NextResponse.json(
       {
-        title: "Something went wrong",
+        title: "Something went wrong ⚠️",
         description: "Please try again",
       },
       { status: 500 }

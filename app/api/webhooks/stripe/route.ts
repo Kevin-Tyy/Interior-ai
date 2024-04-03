@@ -8,22 +8,24 @@ export async function POST(req: Request) {
     const body = await req.text();
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
     const signature = req.headers.get("stripe-signature") as string;
-    console.log(signature);
-    console.log(body);
-    console.log(endpointSecret);
 
     event = Stripe.webhooks.constructEvent(body, signature!, endpointSecret!);
   } catch (err) {
     console.log(err);
     return new Response("Webhook error", { status: 400 });
   }
+
+  console.log(event.type);
+  console.log("Success!!!!");
+
   switch (event.type) {
     case "customer.subscription.created": {
       const subscription = event.data.object;
+      console.log(subscription.metadata?.userId);
 
       await prisma.account.update({
         where: {
-          clerkUserId: subscription.metadata.userId,
+          clerkUserId: subscription.metadata.userId as string,
         },
         data: {
           status: "ACTIVE",
@@ -33,21 +35,21 @@ export async function POST(req: Request) {
       });
       break;
     }
-
     case "checkout.session.completed": {
-      const payment = event.data.object;
+      const subscription = event.data.object;
 
-      if (payment.mode === "payment") {
-        await prisma.account.update({
-          where: {
-            clerkUserId: payment.metadata!.userId,
-          },
-          data: {
-            status: "ACTIVE",
-            package: "LIFETIME",
-          },
-        });
-      }
+      const account = await prisma.account.update({
+        where: {
+          clerkUserId: subscription.metadata!.userId,
+        },
+        data: {
+          status: "ACTIVE",
+          package: "MONTHLY_SUBSCRIPTION",
+          stripeCustomerId: subscription.customer as string,
+        },
+      });
+      console.log(account);
+
       break;
     }
 
@@ -97,3 +99,9 @@ export async function POST(req: Request) {
 
   return new Response("Success", { status: 200 });
 }
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

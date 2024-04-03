@@ -38,7 +38,7 @@ export default function UploadPicture({
     if (isLoaded) {
       if (!isSignedIn) {
         toast({
-          title: "Uh oh! Something went wrong.",
+          title: "Uh oh! Something went wrong. ⚠️",
           description: "Login or sign up for a free account to design your room",
           action: (
             <ToastAction altText="Login" onClick={() => router.push("/auth/signin")}>
@@ -52,7 +52,7 @@ export default function UploadPicture({
     if (rejectedFiles.length > 0) {
       console.info(rejectedFiles);
       toast({
-        description: "Please upload a PNG or JPEG image less than 5MB.",
+        description: "Please upload a PNG or JPEG image less than 5MB. ⚠️",
       });
       return;
     }

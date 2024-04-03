@@ -4,6 +4,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useSignIn } from "@clerk/nextjs";
 import { OAuthStrategy } from "@clerk/nextjs/server";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { TailSpin } from "react-loader-spinner";
@@ -23,6 +24,7 @@ export default function page() {
   });
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+
   const handleInputChange = (event: any) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
@@ -51,10 +53,10 @@ export default function page() {
     } catch (error: any) {
       console.log(error);
       if (error.errors[0].longMessage === "Identifier is invalid.") {
-        toast({ description: "Invalid Username or Email Address" });
+        toast({ description: "Invalid Username or Email Address ⚠️" });
         return;
       }
-      toast({ description: error.errors[0].longMessage || error.errors[0].message });
+      toast({ description: `${error.errors[0].longMessage || error.errors[0].message} ⚠️` });
     } finally {
       setLoading(false);
     }
@@ -85,7 +87,9 @@ export default function page() {
             />
           </div>
           <div className="flex justify-end">
-            <p className="underline text-[17px] cursor-pointer">Forgot your password?</p>
+            <Link href="/auth/forgot-password">
+              <p className="underline text-[17px] cursor-pointer">Forgot your password?</p>
+            </Link>
           </div>
           <button className="bg-primary-orange h-[54px] w-full uppercase font-semibold text-sm rounded-lg !mt-12 text-primary-black flex justify-center items-center">
             {loading ? <TailSpin color="#031A26" height={30} width={30} /> : "Log in"}

@@ -7,13 +7,6 @@ export async function POST(request: NextRequest) {
   const priceId = data.priceId;
   const userId = data.userId;
 
-  // Determine environment
-  const isDevelopment = process.env.NODE_ENV === "development";
-
-  // Set URLs based on environment
-  const successUrl = isDevelopment ? "http://localhost:3000" : "https://interior-ai-lyart.vercel.app";
-  const cancelUrl = isDevelopment ? "http://localhost:3000" : "https://interior-ai-lyart.vercel.app";
-
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -22,8 +15,8 @@ export async function POST(request: NextRequest) {
       },
     ],
     mode: "subscription",
-    success_url: successUrl,
-    cancel_url: cancelUrl,
+    success_url: request.headers.get("origin")!,
+    cancel_url: request.headers.get("origin")!,
     metadata: {
       userId,
     },

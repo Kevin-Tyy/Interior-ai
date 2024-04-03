@@ -53,7 +53,7 @@ export default function page() {
 
       setPendingVerification(true);
     } catch (error: any) {
-      toast({ description: error.errors[0].longMessage || error.errors[0].message });
+      toast({ description: `${error.errors[0].longMessage || error.errors[0].message} ⚠️` });
       console.log(error);
     } finally {
       setLoading(false);
@@ -76,7 +76,7 @@ export default function page() {
         router.push("/");
       }
     } catch (error: any) {
-      toast({ description: error.errors[0].longMessage || error.errors[0].message });
+      toast({ description: `${error.errors[0].longMessage || error.errors[0].message} ⚠️` });
       console.log(error);
       console.error(JSON.stringify(error, null, 2));
     } finally {
