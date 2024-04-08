@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
   try {
     const body = await req.text();
-    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    const endpointSecret = process.env.NODE_ENV === "production" ? process.env.STRIPE_PROD_WEBHOOK_SECRET : process.env.STRIPE_DEV_WEBHOOK_SECRET;
     const signature = req.headers.get("stripe-signature") as string;
 
     event = Stripe.webhooks.constructEvent(body, signature!, endpointSecret!);
