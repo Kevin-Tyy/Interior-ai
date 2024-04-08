@@ -1,6 +1,11 @@
 import Stripe from "stripe";
 import prisma from "@/prisma/client";
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 const find_package = (plan: string) => {
   switch (plan) {
