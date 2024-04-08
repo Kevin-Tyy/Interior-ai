@@ -41,7 +41,7 @@ export default function PricingCards({ selectedPlan }: { selectedPlan: "MONTHLY"
         toast({
           description: "Login or sign up to subscribe to your desired pack ⚠️",
           action: (
-            <ToastAction altText="Login" onClick={() => router.push("/auth/sigin")}>
+            <ToastAction altText="Login" onClick={() => router.push("/auth/signin")}>
               Login
             </ToastAction>
           ),

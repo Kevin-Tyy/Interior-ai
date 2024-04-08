@@ -15,10 +15,12 @@ export async function POST(request: NextRequest) {
       },
     ],
     mode: "subscription",
-    success_url: request.headers.get("origin")!,
+    success_url: `${request.headers.get("origin")!}/success`,
     cancel_url: request.headers.get("origin")!,
-    metadata: {
-      userId,
+    subscription_data: {
+      metadata: {
+        userId,
+      },
     },
     // automatic_tax: { enabled: true },
   });

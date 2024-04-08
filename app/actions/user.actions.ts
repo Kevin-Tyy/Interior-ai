@@ -46,3 +46,22 @@ export const isFreeTrialOver = async (userId: string) => {
   }
   return false;
 };
+
+export const isUserSubscribed = async (userId: string) => {
+  const account = await prisma.account.findFirst({
+    where: {
+      clerkUserId: userId,
+    },
+  });
+
+  if (account?.status === "ACTIVE" && account.package !== null) {
+    return {
+      isSubscribed: true,
+      package: account.package,
+    };
+  } else {
+    return {
+      isSubscribed: false,
+    };
+  }
+};

@@ -1,6 +1,37 @@
 import Stripe from "stripe";
 import prisma from "@/prisma/client";
 
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+const find_package = (plan: string) => {
+  switch (plan) {
+    case process.env.YEARLY_COMPANY_PACK!: {
+      return "YEARLY_COMPANY_PACK";
+    }
+    case process.env.YEARLY_PROFESSIONAL_PACK!: {
+      return "YEARLY_PROFESSIONAL_PACK";
+    }
+    case process.env.YEARLY_STARTER_PACK!: {
+      return "YEARLY_STARTER_PACK";
+    }
+    case process.env.MONTHLY_COMPANY_PACK!: {
+      return "MONTHLY_COMPANY_PACK";
+    }
+    case process.env.MONTHLY_PROFESSIONAL_PACK!: {
+      return "MONTHLY_PROFESSIONAL_PACK";
+    }
+    case process.env.MONTHLY_STARTER_PACK!: {
+      return "MONTHLY_STARTER_PACK";
+    }
+    default: {
+      return null;
+    }
+  }
+};
+
 export async function POST(req: Request) {
   let event;
 
@@ -29,27 +60,10 @@ export async function POST(req: Request) {
         },
         data: {
           status: "ACTIVE",
-          package: "MONTHLY_SUBSCRIPTION",
+          package: find_package(subscription.items.data[0].plan.id),
           stripeCustomerId: subscription.customer as string,
         },
       });
-      break;
-    }
-    case "checkout.session.completed": {
-      const subscription = event.data.object;
-
-      const account = await prisma.account.update({
-        where: {
-          clerkUserId: subscription.metadata!.userId,
-        },
-        data: {
-          status: "ACTIVE",
-          package: "MONTHLY_SUBSCRIPTION",
-          stripeCustomerId: subscription.customer as string,
-        },
-      });
-      console.log(account);
-
       break;
     }
 
@@ -83,7 +97,7 @@ export async function POST(req: Request) {
 
       await prisma.account.update({
         where: {
-          clerkUserId: subscription.metadata.userId,
+          clerkUserId: subscription.metadata.userId!,
         },
         data: {
           status: "INACTIVE",
@@ -99,9 +113,3 @@ export async function POST(req: Request) {
 
   return new Response("Success", { status: 200 });
 }
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
