@@ -5,7 +5,7 @@ import React, { Fragment } from "react";
 export default function page() {
   return (
     <Fragment>
-      <div className="min-h-screen absolute w-full z-[-1]">
+      <div className="min-h-screen absolute w-full z-[-1] overflow-x-hidden">
         <Image src="/svgs/path.svg" alt="" width={690} height={40} className="relative top-20 opacity-60" />
         <div className="w-[550px] h-[300px] rounded-full absolute top-1/2 right-0 bg-gradient-to-r from-primary-orange/70 to-primary-orange/70 blur-[200px]" />
         <div className="w-[450px] h-[200px] rounded-full absolute bottom-20 left-0 bg-gradient-to-r from-primary-orange to-primary-orange blur-[200px]" />

@@ -4,7 +4,7 @@ import React, { Fragment } from "react";
 export default function layout({ children }: { children: React.ReactNode }) {
   return (
     <Fragment>
-      <div className="h-screen w-full bg-[url('/assets/hero_asset4.png')] bg-no-repeat bg-center bg-cover">
+      <div className="h-screen w-full bg-[url('/assets/hero_asset4.png')] bg-no-repeat bg-center bg-cover overflow-x-hidden">
         <div className="h-screen absolute w-full z-[]">
           <Image src="/svgs/path.svg" alt="" width={690} height={40} className="relative top-20 opacity-20" />
           <div className="w-[550px] h-[300px] rounded-full absolute top-1/2 right-0 bg-gradient-to-r from-primary-orange/40 to-primary-orange/70 blur-[180px]" />

@@ -14,7 +14,7 @@ export default function OutputImage({ downloadOutputImage, loading, outputImage,
   return (
     <div className="w-full max-w-[1860px] mx-auto">
       <section className="px-3">
-        <div className="flex gap-6">
+        <div className="flex flex-col md:flex-row gap-6">
           <div className="w-full relative">
             <Image
               src={outputImage && base64Image && !loading ? base64Image : "/assets/dummy_room.png"}
