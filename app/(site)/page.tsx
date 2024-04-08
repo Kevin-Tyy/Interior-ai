@@ -150,7 +150,7 @@ export default function Home() {
         <Image src="/svgs/path.svg" alt="" width={690} height={40} className="relative top-20 opacity-60" />
         <div className="w-[550px] h-[300px] rounded-full absolute top-1/2 right-0 bg-gradient-to-r from-primary-orange/70 to-primary-orange/70 blur-[180px]" />
         <div className="w-[450px] h-[200px] rounded-full absolute bottom-20 left-0 bg-gradient-to-r from-primary-orange to-primary-orange blur-[160px]" />
-        <h1 className="absolute bottom-0 left-0 text-[120px] text-[#0b0e1766] select-none uppercase font-black ">Interior</h1>
+        <h1 className="absolute bottom-0 left-0 text-[120px] text-[#0b0e1766] select-none uppercase font-black ">HomespaceAi</h1>
       </div>
       <main className="text-white">
         <div className="w-full flex flex-col lg:flex-row">

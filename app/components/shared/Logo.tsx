@@ -9,7 +9,7 @@ export default function Logo({ isLight, isMobile }: Props) {
   return (
     <Link href="/" className={``}>
       <Image
-        src={"/logo/interior-ai.svg"}
+        src={"/logo/Homespaceai-logo.svg"}
         alt="imaginate"
         height={80}
         width={80}

@@ -5,8 +5,9 @@ import Progressbar from "@/providers/Progressbar";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/toaster";
 export const metadata: Metadata = {
-  title: "Interior AI",
-  description: "Interior AI",
+  title: "Homespace AI",
+  description:
+    "Homespace AI revolutionizes interior design, seamlessly melding style and functionality to craft personalized, visually stunning environments with just a click.",
 };
 
 export default function RootLayout({

@@ -14,7 +14,7 @@ export default function page() {
         <div className="flex justify-center items-center">
           <div className="text-white space-y-5">
             <h2 className="text-3xl text-primary-lightgray font-bold text-center">Get In Touch</h2>
-            <h1 className="text-5xl font-bold">info@interiorai.com</h1>
+            <h1 className="text-5xl font-bold">info@homespaceai.com</h1>
           </div>
         </div>
         <form className="max-w-[628px] mx-auto mt-12 w-full space-y-8">

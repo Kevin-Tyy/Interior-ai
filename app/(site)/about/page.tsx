@@ -10,7 +10,7 @@ export default function About() {
         <div className="w-[550px] h-[300px] rounded-full absolute top-1/2 right-0 bg-gradient-to-r from-primary-orange to-primary-orange blur-[200px]" />
         <div className="w-[450px] h-[200px] rounded-full absolute bottom-20 left-0 bg-gradient-to-r from-primary-orange to-primary-orange blur-[200px]" />
       </div>
-      <h1 className="absolute bottom-0 left-0 text-[120px] text-[#ffffff1c] select-none uppercase font-black z-[1]">Interior</h1>
+      <h1 className="absolute bottom-0 left-0 text-[120px] text-[#ffffff1c] select-none uppercase font-black z-[1]">HomespaceAi</h1>
       <div className="text-white p-3">
         <div className="flex flex-col justify-center items-center max-w-[1860px] mx-auto pt-32 space-y-12">
           <h1 className="text-5xl md:text-[68px] font-bold max-w-6xl leading-snug text-center">
