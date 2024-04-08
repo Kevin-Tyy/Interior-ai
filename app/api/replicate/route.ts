@@ -75,10 +75,10 @@ export async function POST(request: Request) {
           title: "Image generated ✅",
           description: `${
             user_has_free_trial
-              ? `You have ${number_of_images_generated! - 1 > 0 ? 5 - number_of_images_generated! - 1 : "No"} free image${
+              ? `You have ${5 - number_of_images_generated! - 1 > 0 ? 5 - number_of_images_generated! - 1 : "No"} free image${
                   5 - number_of_images_generated! - 1 == 1 ? "" : "s"
                 } left`
-              : "You can generate more unlimited images with your subscription pack"
+              : "You can now generate more unlimited images with your subscription pack"
           }`,
         },
       },
